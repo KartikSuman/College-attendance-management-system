@@ -1,0 +1,369 @@
+                        //STUDENT REGISTRATION AND ATTENDANCE MANAGEMENT SYSTEM
+//HEADER FILES
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+#include<conio.h>
+//STRUCTURE DECLARATION
+struct node
+{
+    char name[15];
+    int roll;
+    int semester;
+    char att[10];
+    struct node *next,*prev;
+};
+//GLOBAL FUNCTION DECLARATION
+    struct node *start=NULL;
+    struct node *create_ll();
+    struct node *display();
+    struct node *insert_record();
+    struct node *insert_beg();
+    struct node *insert_end();
+    struct node *insert_before();
+    struct node *insert_after();
+    struct node *delete_record();
+    struct node *attendance();
+//MAIN FUNCTION
+int main()
+{
+    int choice;
+    int day=0;
+    do{
+    printf("_______________________________________________________________________________\n");
+    printf("\n\n\t ****** WELCOME TO IEM STUDENT DATA MANAGEMENT SYSTEM ******\n");
+    printf("\t_____________________________________________________________\n\n");
+    printf("\t 1:CREATE RECORD\n");
+    printf("\t 2:DISPLAY RECORDS\n");
+    printf("\t 3:INSERT A RECORD IN THE THE LIST\n");
+    printf("\t 4:DELETE A RECORD IN THE LIST\n");
+    printf("\t 5:STUDENT'S ATTENDANCE\n");
+    printf("\t 6:EXIT\n");
+    printf("ENTER YOUR CHOICE:\n");
+    scanf("%d",&choice);
+        switch(choice)
+        {
+        case 1:
+            create_ll();
+            printf("\n Record registered\n");
+            break;
+       case 2:
+            display();
+            break;
+       case 3:
+            insert_record();
+            break;
+        case 4:
+            delete_record();
+            break;
+       case 5:
+            attendance();
+            break;
+        default:
+            printf("INVALID CHOICE:\nPLEASE CHOOSE A VALID OPTION\n");
+            printf("\n\n");
+        }
+    }while(choice!=6);
+    getch();
+
+    return 0;
+    clrscr();
+}
+//LIST CREATION CODE
+struct node *create_ll()
+{
+    struct node *new_node, *ptr;
+    int rollx,stdx;
+    char namex[15];
+    printf("\n Enter -1 to end\n");
+    printf("\n ENTER THE NAME OF CANDIDATE :");
+    fflush(stdin);
+    gets(namex);
+    printf("\nEnter the Roll_No.:\t");
+    scanf("%d",&rollx);
+    printf("\nEnter the Semester.:\t");
+    scanf("%d",&stdx);
+    printf("\n");
+
+    while (rollx!=-1)
+       {
+        if(start==NULL)
+        {
+        new_node= (struct node*)malloc(sizeof(struct node));
+        new_node->roll=rollx;
+        new_node->semester=stdx;
+        new_node->name=namex;
+        new_node->prev=NULL;
+        new_node->next=NULL;
+        start=new_node;
+        }
+        else
+        {
+        ptr=start;
+        new_node= (struct node*)malloc(sizeof(struct node));
+         new_node-> roll=rollx;
+         new_node-> semester=stdx;
+        new_node->name[15]=namex[15];
+        while(ptr->next!=NULL)
+            ptr=ptr->next;
+        ptr->next=new_node;
+        new_node->prev=ptr;
+        new_node->next=NULL;
+        }
+
+         printf("\nEnter the Name:.\t");
+        fflush(stdin);
+        gets(namex);
+        printf("\n Enter the Roll_No.:\t");
+        scanf(" %d",&rollx);
+        printf("\nEnter the Semester:\t");
+        scanf("%d",&stdx);
+
+    }
+    return start;
+}
+
+//LIST TRAVERSAL CUM DISPLAY CODE
+struct node *display()
+{
+
+struct node *ptr;
+ptr=start;
+while(ptr!=NULL)
+    {
+        printf("\t NAME: %s",ptr->name);
+        printf("\t  ROLL:%d",ptr->roll);
+        printf("\t SEMESTER:%d\n",ptr->semester);
+                ptr=ptr->next;
+
+    }
+    printf("\n\n");
+return start;
+}
+//RECORD INSERTION CODE
+struct node *insert_record()
+{
+    int pos;
+    printf("\nENTER THE POSITION WHERE YOU WANT TO INSERT THE RECORD\n");
+    printf("Press 1 for insertion at beginnning.\n");
+    printf(" Press 2 for insertion at midddle.\n");
+    printf(" Press 3 for insertion at last.\n");
+    scanf("%d",&pos);
+    switch(pos)
+    {
+        case(1):
+            {   struct node *insert_beg();
+                {
+                struct node *new_node;
+                int rollx,stdx;
+                printf("\n Enter the Roll_No.:\t");
+                scanf(" %d",&rollx);
+                printf("\nEnter the Semester:\t");
+                scanf("%d",&stdx);
+                printf("\n\n");
+                new_node=(struct node*)malloc(sizeof(struct node));
+                new_node-> roll=rollx;
+                new_node-> semester=stdx;
+                new_node->prev=NULL;
+                new_node->next=start;
+                start=new_node;
+                printf("Record Registered\n");
+                return start;
+                }
+            }
+        case(2):
+            {   int place;
+                printf("Select whether you want to insert after a record or before a record.\n");
+                printf("Press 1 for after a record.\n");
+                printf("Press 2 for before a record.\n");
+                scanf("%d",&place);
+                switch(place)
+                {
+                case(1):
+                    {
+                        insert_after();
+                        break;
+                    }
+                case(2):
+                    {
+                        insert_before();
+                        break;
+                    }
+                        default:
+                        printf("Enter a valid choice\n");
+                }
+                break;
+            }
+
+        case(3):
+            {
+               struct node *insert_end();
+                {
+                struct node *ptr, *new_node;
+                int rollx,stdx;
+                printf("\n Enter the Roll_No.:\t");
+                scanf(" %d",&rollx);
+                printf("\nEnter the Semester:\t");
+                scanf("%d",&stdx);
+                printf("\n\n");
+                new_node=(struct node *)malloc(sizeof(struct node));
+                new_node-> roll=rollx;
+                new_node-> semester=stdx;
+                ptr=start;
+                while(ptr->next!=NULL)
+                    ptr=ptr->next;
+
+                ptr->next=new_node;
+                new_node->prev=ptr;
+                new_node->next=NULL;
+                printf("Record Registered\n");
+                return start;
+                }
+                break;
+
+            }
+        default:
+            printf("Enter a proper position.\n");
+    }
+}
+struct node *insert_after()
+                        {
+                        struct node *ptr,*new_node;
+                        int roll_s,std_s,val;
+                        printf("\n Enter the Roll_No.:\t");
+                        scanf(" %d",&roll_s);
+                        printf("\nEnter the Semester:\t");
+                        scanf("%d",&std_s);
+                        new_node=(struct node *)malloc(sizeof(struct node));
+                        new_node->roll=roll_s;
+                        new_node->semester=std_s;
+                        ptr=start;
+                        printf("Enter the value after which you want to insert\n");
+                        scanf("%d",&val);
+                        while(ptr->roll!=val)
+                        ptr=ptr->next;
+                        new_node->prev=ptr;
+                        new_node->next=ptr->next;
+                        ptr->next->prev=new_node;
+                        ptr->next=new_node;
+                        printf("Record Registered\n");
+                        return start;
+                        }
+                         struct node *insert_before()
+                        {
+                        struct node *new_node,*ptr;
+                        int roll_s,rollx,std_s;
+                        printf("\n Enter the Roll_No.:\t");
+                        scanf(" %d",&roll_s);
+                        printf("\nEnter the Semester:\t");
+                        scanf("%d",&std_s);
+                        new_node=(struct node *)malloc(sizeof(struct node));
+                        new_node-> roll=roll_s;
+                        new_node-> semester=std_s;
+                        ptr=start;
+                        printf("Enter the Roll_No. before which you want to insert\n");
+                        scanf("%d",&rollx);
+                        while(ptr->roll!=rollx)
+                            ptr=ptr->next;
+
+                        new_node->next=ptr;
+                        new_node->prev=ptr->prev;
+                        ptr->prev->next=new_node;
+                        ptr->prev=new_node;
+                        printf("Record Registered\n");
+                        return start;
+                        }
+
+//RECORD DELETION
+struct node *delete_record()
+{
+ struct node *ptr;
+ int pos,c=0;
+ ptr=start;
+ while(ptr->next!=NULL)
+ {
+     ptr=ptr->next;
+     c++;
+ }
+  printf("YOU HAVE A TOTAL OF %d RECORDS\n\n",c+1);
+
+if (c>=0)
+    {
+        printf("ENTER THE RECORD'S ROLL YOU WANT TO DELETE\t");
+        scanf("%d",&pos);
+            if(pos==1)
+            {
+            ptr=start;
+            start=ptr->next;
+            free(ptr);
+            printf("THE RECORD HAS  BEEN DELETED\n\n\n");
+            }
+            else if((pos>1)&&(pos<c))
+            {
+            ptr=start;
+            while(ptr->roll!=pos)
+                ptr=ptr->next;
+
+            ptr->prev->next=ptr->next;
+            ptr->next->prev=ptr->prev;
+            ptr->next=NULL;
+            ptr->prev=NULL;
+            free(ptr);
+            printf("THE RECORD HAS BEEN DELETD\n");
+            }
+            else if(pos>c)
+            {
+            printf("Please enter a valid Roll_No.\n");
+            }
+            else
+            {
+            ptr=start;
+            while(ptr->next!=NULL)
+                ptr=ptr->next;
+            ptr->prev->next=NULL;
+            free(ptr);
+            printf("THE RECORD HAS BEEN DELETED\n");
+            }
+   }
+
+ else
+    {
+    printf("YOU DON'T HAVE SUFFICIENT RECORDS FOR DELETION\n");
+    }
+}
+
+//STUDENT ATTENDANCE CODE
+struct node *attendance()
+{
+    struct node *ptr;
+    ptr=start;
+    int date=0;
+    printf("\t\t*****STUDENT ATTENDANCE MANAGEMENT*****\n");
+    printf("\t\t________________________________________\n");
+    printf("\t\t ATTENDANCE FOR DAY %d\n",date+1);
+    printf("\tPress P for a present student\n");
+    printf("\tPress A for a absent student\n");
+    while(ptr->next!=NULL)
+        {
+            printf("Kindly respond roll %d \n",ptr->roll);
+            scanf(" %c",&ptr->att[date]);
+                if(ptr->att[date]=='P')
+                    {
+                        printf("Roll %d is Present\n\n",ptr->roll);
+                    }
+
+                else if(ptr->att[date]=='A')
+                    {
+                        printf("Roll %d is Absent\n\n",ptr->roll);
+                    }
+            ptr=ptr->next;
+        }
+        printf("\t\t ***ATTENDANCE COMPLETED***\n");
+//        day++;
+
+}
+
+
+
+
+
